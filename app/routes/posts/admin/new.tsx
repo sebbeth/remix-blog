@@ -23,18 +23,9 @@ export const action = async ({ request }: ActionArgs) => {
     return json(errors);
   }
 
-  invariant(
-    typeof title === "string",
-    "title must be a string"
-  );
-  invariant(
-    typeof slug === "string",
-    "slug must be a string"
-  );
-  invariant(
-    typeof markdown === "string",
-    "markdown must be a string"
-  );
+  invariant(typeof title === "string", "title must be a string");
+  invariant(typeof slug === "string", "slug must be a string");
+  invariant(typeof markdown === "string", "markdown must be a string");
 
   await createPost({ title, slug, markdown });
 
@@ -47,9 +38,7 @@ export default function NewPost() {
   const errors = useActionData<typeof action>();
 
   const navigation = useNavigation();
-  const isCreating = Boolean(
-    navigation.state === "submitting"
-  );
+  const isCreating = Boolean(navigation.state === "submitting");
 
   return (
     <Form method="post">

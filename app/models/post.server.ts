@@ -12,3 +12,8 @@ import { prisma } from "~/db.server";
   export async function createPost(post: Post) {
     return prisma.post.create({ data: post });
   }
+
+  export async function deletePost(slug: string) {
+    console.log("deletePost", slug);
+    return prisma.post.delete({where: {slug}});
+  }
