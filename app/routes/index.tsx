@@ -66,9 +66,8 @@ export default function Index() {
           </div>
         </div>
 
-        <Link to="/posts">
-          Blog Posts
-        </Link>
+        <Link to="/posts">Blog Posts</Link>
+
       </div>
     </main>
   );
