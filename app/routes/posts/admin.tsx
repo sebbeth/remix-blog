@@ -9,7 +9,6 @@ export const loader = async () => {
 };
 
 export async function action({ request }: ActionArgs) {
-  console.log({ request });
 
   const formData = await request.formData();
 
