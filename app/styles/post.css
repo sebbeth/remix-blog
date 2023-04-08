@@ -1,0 +1,18 @@
+h1 {
+    font-size: xxx-large;
+    margin-top: -1rem;
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.new-buttons {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 1rem;
+}

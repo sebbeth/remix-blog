@@ -9,8 +9,18 @@ import {
 } from "@remix-run/react";
 import { deletePost, getPost, updatePost } from "~/models/post.server";
 import invariant from "tiny-invariant";
+import postStyles from "~/styles/post.css"
 
 const inputClassName = `w-full rounded border border-gray-500 px-2 py-1 text-lg`;
+
+export function links() {
+  return [
+    {
+      rel: "stylesheet",
+      href: postStyles,
+    },
+  ];
+}
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.slug, `params.slug is required`);
@@ -78,7 +88,6 @@ export default function PostEdit() {
           />
         </label>
       </p>
-      Slug: {post.slug}
       <p>
         <label htmlFor="markdown">
           Markdown:
@@ -89,14 +98,13 @@ export default function PostEdit() {
         <br />
         <textarea
           id="markdown"
-          rows={20}
+          rows={15}
           name="markdown"
           defaultValue={post.markdown}
           className={`${inputClassName} font-mono`}
         />
       </p>
-      <p className="text-right">
-        <Link to={`/posts/${post.slug}`}>Cancel</Link>
+      <div className="edit-buttons">
         <button
           type="submit"
           name="intent"
@@ -106,14 +114,18 @@ export default function PostEdit() {
         >
           Delete
         </button>
+        <div className="edit-buttons">
+
+        <Link to={`/posts/${post.slug}`}>Cancel</Link>
         <button
           type="submit"
           className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
           disabled={isLoading}
-        >
+          >
           Save
         </button>
-      </p>
+          </div>
+      </div>
     </Form>
   );
 }

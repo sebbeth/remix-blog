@@ -3,8 +3,18 @@ import { json } from "@remix-run/node";
 import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { createPost } from "~/models/post.server";
 import invariant from "tiny-invariant";
+import postStyles from "~/styles/post.css"
 
 const inputClassName = `w-full rounded border border-gray-500 px-2 py-1 text-lg`;
+
+export function links() {
+  return [
+    {
+      rel: "stylesheet",
+      href: postStyles,
+    },
+  ];
+}
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
@@ -67,12 +77,12 @@ export default function PostEdit() {
         <br />
         <textarea
           id="markdown"
-          rows={20}
+          rows={15}
           name="markdown"
           className={`${inputClassName} font-mono`}
         />
       </p>
-      <p className="text-right">
+      <div className="new-buttons">
         <Link to={`/posts`}>Cancel</Link>
         <button
           type="submit"
@@ -81,7 +91,7 @@ export default function PostEdit() {
         >
           Save
         </button>
-      </p>
+      </div>
     </Form>
   );
 }
