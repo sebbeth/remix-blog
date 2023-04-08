@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { getPosts } from "~/models/post.server";
 import styles from "~/styles/posts.css";
 
@@ -18,10 +18,10 @@ export const loader = async () => {
 
 export default function Posts() {
   const { posts } = useLoaderData<typeof loader>();
-  console.log(posts);
   return (
     <main>
       <h1>Posts</h1>
+      <Link to="new">New Post</Link>
       <ul>
         {posts.map((post) => (
           <li key={post.slug}>
@@ -34,9 +34,7 @@ export default function Posts() {
           </li>
         ))}
       </ul>
-      <Link to="admin" className="text-red-600 underline">
-          Admin
-        </Link>
+      <Outlet/>
     </main>
   );
 }

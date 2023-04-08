@@ -1,6 +1,6 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { getPost } from "~/models/post.server";
 import invariant from "tiny-invariant";
 import { marked } from "marked";
@@ -22,6 +22,8 @@ export default function PostSlug() {
       <h1 className="my-6 border-b-2 text-center text-3xl">
       {post.title}
       </h1>
+      <Link to="edit">Edit</Link>
+      <Link to="/posts">Home</Link>
       <div dangerouslySetInnerHTML={{ __html: html }} />
     </main>
   );

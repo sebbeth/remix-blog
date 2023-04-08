@@ -1,17 +1,19 @@
-import { Form, useActionData, useNavigation } from "@remix-run/react";
-import { ActionArgs, json, redirect } from "@remix-run/node";
-
-const inputClassName = `w-full rounded border border-gray-500 px-2 py-1 text-lg`;
-
+import { ActionArgs, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { createPost } from "~/models/post.server";
 import invariant from "tiny-invariant";
 
-export const action = async ({ request }: ActionArgs) => {
-  const formData = await request.formData();
+const inputClassName = `w-full rounded border border-gray-500 px-2 py-1 text-lg`;
 
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData();
   const title = formData.get("title");
   const slug = formData.get("slug");
   const markdown = formData.get("markdown");
+  invariant(typeof slug === "string", "slug must be a string");
+  invariant(typeof title === "string", "title must be a string");
+  invariant(typeof markdown === "string", "markdown must be a string");
 
   const errors = {
     title: title ? null : "Title is required",
@@ -23,22 +25,17 @@ export const action = async ({ request }: ActionArgs) => {
     return json(errors);
   }
 
-  invariant(typeof title === "string", "title must be a string");
-  invariant(typeof slug === "string", "slug must be a string");
-  invariant(typeof markdown === "string", "markdown must be a string");
 
   await createPost({ title, slug, markdown });
 
-  return redirect("/posts/admin");
-};
+  return redirect(`/posts/${slug}`);
+}
 
-// ...
-
-export default function NewPost() {
+export default function PostEdit() {
   const errors = useActionData<typeof action>();
 
   const navigation = useNavigation();
-  const isCreating = Boolean(navigation.state === "submitting");
+  const isLoading = Boolean(navigation.state === "submitting");
 
   return (
     <Form method="post">
@@ -76,12 +73,13 @@ export default function NewPost() {
         />
       </p>
       <p className="text-right">
+        <Link to={`/posts`}>Cancel</Link>
         <button
           type="submit"
           className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
-          disabled={isCreating}
+          disabled={isLoading}
         >
-          Create Post
+          Save
         </button>
       </p>
     </Form>
