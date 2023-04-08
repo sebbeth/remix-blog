@@ -17,6 +17,10 @@ import { prisma } from "~/db.server";
     return prisma.post.delete({where: {slug}});
   }
 
+  export async function getLatestPost() {
+    return prisma.post.findFirst({ orderBy: { createdAt: "desc" } });
+  }
+
   export async function updatePost(slug: string, post: Post) {
     return prisma.post.update({ where: { slug }, data: post });
   }

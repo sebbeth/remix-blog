@@ -1,5 +1,6 @@
 import { json } from "@remix-run/node";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useParams } from "@remix-run/react";
+import Navbar from "~/components/Navbar";
 import { getPosts } from "~/models/post.server";
 import styles from "~/styles/posts.css";
 
@@ -18,22 +19,10 @@ export const loader = async () => {
 
 export default function Posts() {
   const { posts } = useLoaderData<typeof loader>();
+  const currentPostSlug = useParams().slug;
   return (
     <main>
-      <h1>Posts</h1>
-      <Link to="new">New Post</Link>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.slug}>
-            <Link
-              to={post.slug}
-              className="text-blue-600 underline"
-            >
-              {post.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+        <Navbar posts={posts} currentPostSlug={currentPostSlug}/>
       <Outlet/>
     </main>
   );
