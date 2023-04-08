@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 
 export interface NavbarProps {
 posts: Post[];
-currentPostSlug: string;
+currentPostSlug: string | undefined;
 }
 
 function getNextPost(posts: Post[], slug: string) {
@@ -25,8 +25,8 @@ function getPreviousPost(posts: Post[], slug: string) {
 export default function Navbar(props: NavbarProps) {
     // note, this is a really inefficient way to do this as it requires retrieving the entire list of posts
     const { posts, currentPostSlug } = props;
-    const nextPostSlug = getNextPost(posts, currentPostSlug)?.slug;
-    const previousPostSlug = getPreviousPost(posts, currentPostSlug)?.slug;
+    const nextPostSlug = currentPostSlug ? getNextPost(posts, currentPostSlug)?.slug : undefined;
+    const previousPostSlug =currentPostSlug ? getPreviousPost(posts, currentPostSlug)?.slug : undefined
     return (
         <div>
              <h1>Posts</h1>

@@ -22,8 +22,7 @@ export default function PostSlug() {
       <h1 className="my-6 border-b-2 text-center text-3xl">
       {post.title}
       </h1>
-      <Link to="edit">Edit</Link>
-      <Link to="/posts">Home</Link>
+      <Link to={`/posts/edit/${post.slug}`}>Edit</Link>
       <div dangerouslySetInnerHTML={{ __html: html }} />
     </main>
   );
