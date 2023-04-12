@@ -4,6 +4,7 @@ import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { createPost } from "~/models/post.server";
 import invariant from "tiny-invariant";
 import postStyles from "~/styles/post.css"
+import { getSaveButtonText } from "~/helpers/edit.helpers";
 
 const inputClassName = `w-full rounded border border-gray-500 px-2 py-1 text-lg`;
 
@@ -48,8 +49,8 @@ export default function PostEdit() {
   const isLoading = Boolean(navigation.state === "submitting");
 
   return (
-    <Form method="post">
-      <p>
+    <Form method="post" className="edit-form">
+      <div>
         <label>
           Post Title:{" "}
           {errors?.title ? (
@@ -57,8 +58,8 @@ export default function PostEdit() {
           ) : null}
           <input type="text" name="title" className={inputClassName} />
         </label>
-      </p>
-      <p>
+      </div>
+      <div>
         <label>
           Post Slug:{" "}
           {errors?.slug ? (
@@ -66,8 +67,8 @@ export default function PostEdit() {
           ) : null}
           <input type="text" name="slug" className={inputClassName} />
         </label>
-      </p>
-      <p>
+      </div>
+      <div>
         <label htmlFor="markdown">
           Markdown:
           {errors?.markdown ? (
@@ -77,11 +78,11 @@ export default function PostEdit() {
         <br />
         <textarea
           id="markdown"
-          rows={15}
+          rows={12}
           name="markdown"
           className={`${inputClassName} font-mono`}
         />
-      </p>
+      </div>
       <div className="new-buttons">
         <Link to={`/posts`}>Cancel</Link>
         <button
@@ -89,9 +90,10 @@ export default function PostEdit() {
           className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
           disabled={isLoading}
         >
-          Save
+          {getSaveButtonText(navigation)}
         </button>
       </div>
     </Form>
   );
 }
+

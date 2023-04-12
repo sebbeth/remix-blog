@@ -1,10 +1,10 @@
 /* background color css variable based on dark mode preference*/
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #1b1b1b;
-    --text-color: #fff;
-    --input-field-color: #2e2e2e;
-}
+    :root {
+        --bg-color: #1b1b1b;
+        --text-color: #fff;
+        --input-field-color: #2e2e2e;
+    }
 }
 
 @media (prefers-color-scheme: light) {
@@ -12,16 +12,17 @@
         --bg-color: #fff;
         --text-color: #000;
         --input-field-color: #fff;
-  }
+    }
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding:1rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 1rem;
 }
 
-textarea, input {
+textarea,
+input {
     background-color: var(--input-field-color);
 }
 
@@ -31,35 +32,40 @@ textarea, input {
     gap: 1rem;
 }
 
+.navbar {
+    margin-bottom: 3rem;
+}
 
-.navbar > .bar {
+.navbar>.bar {
     width: 100%;
     height: 2px;
     background-color: var(--text-color);
     margin-bottom: 1rem;
 }
-.navbar > .solid {
+
+.navbar>.solid {
     height: 3px;
 }
 
-.navbar-content > .back-button {
+.navbar-content>.back-button {
     display: flex;
     justify-content: flex-start;
 }
-.navbar-content > .index {
+
+.navbar-content>.index {
     display: flex;
     justify-content: center;
 }
 
-.navbar-content > .forward-button {
+.navbar-content>.forward-button {
     display: flex;
     justify-content: flex-end;
 }
 
 
 .navbar-content {
-display: grid;
-grid-template-columns: 1fr 1fr 1fr;
-margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 1rem;
+    grid-template-rows: 1.5rem;
 }
-

@@ -33,7 +33,7 @@ export default function PostSlug() {
       {post.title}
       </h1>
       <div dangerouslySetInnerHTML={{ __html: html }} />
-      <Link to={`/posts/edit/${post.slug}`} className="my-2">📝 Edit</Link>
+      <Link to={`/posts/edit/${post.slug}`} className="edit-button">Edit</Link>
     </main>
   );
 }

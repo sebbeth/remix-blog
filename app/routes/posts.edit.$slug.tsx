@@ -9,9 +9,8 @@ import {
 } from "@remix-run/react";
 import { deletePost, getPost, updatePost } from "~/models/post.server";
 import invariant from "tiny-invariant";
-import postStyles from "~/styles/post.css"
-
-const inputClassName = `w-full rounded border border-gray-500 px-2 py-1 text-lg`;
+import { getSaveButtonText } from "~/helpers/edit.helpers";
+import postStyles from "~/styles/post.css";
 
 export function links() {
   return [
@@ -35,7 +34,9 @@ export async function action({ request }: ActionArgs) {
 
   const title = formData.get("title");
   const slug = formData.get("slug");
+  const previousSlug = formData.get("previousSlug");
   const markdown = formData.get("markdown");
+  invariant(typeof previousSlug === "string", "previousSlug must be a string");
   invariant(typeof slug === "string", "slug must be a string");
   invariant(typeof title === "string", "title must be a string");
   invariant(typeof markdown === "string", "markdown must be a string");
@@ -50,6 +51,7 @@ export async function action({ request }: ActionArgs) {
 
   const errors = {
     title: title ? null : "Title is required",
+    slug: slug ? null : "Slug is required",
     markdown: markdown ? null : "Markdown is required",
   };
   const hasErrors = Object.values(errors).some((errorMessage) => errorMessage);
@@ -57,24 +59,27 @@ export async function action({ request }: ActionArgs) {
     return json(errors);
   }
 
-
-  await updatePost(slug, { title, slug, markdown });
+  console.log("updating post", { title, slug, markdown })
+  await updatePost(previousSlug, { title, slug, markdown });
 
   return redirect(`/posts/${slug}`);
 }
+
+const inputClassName = `w-full rounded border border-gray-500 px-2 py-1 text-lg`;
 
 export default function PostEdit() {
   const errors = useActionData<typeof action>();
 
   const navigation = useNavigation();
-  const isLoading = Boolean(navigation.state === "submitting");
 
   const { post } = useLoaderData<typeof loader>();
 
+  const isSubmitting = Boolean(navigation.state === "submitting");
+
   return (
-    <Form method="post">
-      <input type="hidden" name="slug" value={post.slug} />
-      <p>
+    <Form method="post" className="edit-form">
+      <input type="hidden" name="previousSlug" value={post.slug} />
+      <div>
         <label>
           Post Title:{" "}
           {errors?.title ? (
@@ -87,8 +92,17 @@ export default function PostEdit() {
             className={inputClassName}
           />
         </label>
-      </p>
-      <p>
+      </div>
+      <div>
+        <label>
+          Post Slug:{" "}
+          {errors?.slug ? (
+            <em className="text-red-600">{errors.slug}</em>
+          ) : null}
+          <input type="text" name="slug" className={inputClassName}  defaultValue={post.slug}/>
+        </label>
+      </div>
+      <div>
         <label htmlFor="markdown">
           Markdown:
           {errors?.markdown ? (
@@ -103,28 +117,27 @@ export default function PostEdit() {
           defaultValue={post.markdown}
           className={`${inputClassName} font-mono`}
         />
-      </p>
+      </div>
       <div className="edit-buttons">
         <button
           type="submit"
           name="intent"
           value="delete"
           className="delete"
-          disabled={isLoading}
+          disabled={isSubmitting}
         >
           Delete
         </button>
         <div className="edit-buttons">
-
-        <Link to={`/posts/${post.slug}`}>Cancel</Link>
-        <button
-          type="submit"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
-          disabled={isLoading}
+          <Link to={`/posts/${post.slug}`}>Cancel</Link>
+          <button
+            type="submit"
+            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300"
+            disabled={isSubmitting}
           >
-          Save
-        </button>
-          </div>
+            {getSaveButtonText(navigation)}
+          </button>
+        </div>
       </div>
     </Form>
   );

@@ -1,6 +1,6 @@
 h1 {
     font-size: xxx-large;
-    margin-top: -1rem;
+    margin-bottom: 6rem;
 }
 
 .edit-buttons {
@@ -15,4 +15,31 @@ h1 {
     justify-content: end;
     align-items: center;
     gap: 1rem;
+}
+
+.edit-form {
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-button {
+    position: fixed;
+    bottom: 0.5rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+p {
+    display: flex;
+    justify-content: center;
+}
+
+ul {
+    text-align: center;
+}
+
+img {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }

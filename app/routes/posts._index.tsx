@@ -7,8 +7,9 @@ export async function loader() {
   if (latestPost) {
     return redirect(`/posts/${latestPost.slug}`);
   }
+  return null;
 }
 
 export default function PostIndexPage() {
-  return <></>;
+  return <div>No posts to show</div>;
 }
